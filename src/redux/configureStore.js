@@ -1,3 +1,4 @@
+import { merge } from 'lodash'
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import reducer from 'cape-redux-reducer'
@@ -39,10 +40,10 @@ export default function configureStore(initialState) {
       currentYear: new Date().getFullYear(),
     },
   }
-  // const initState = merge(initialState, calculatedState)
+  const initState = merge(initialState, calculatedState)
   const store = createStore(
     reducer,
-    calculatedState,
+    initState,
     composeEnhancers(
       applyMiddleware(...middleware),
     )
