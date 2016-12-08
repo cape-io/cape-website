@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react'
-import classnames from 'classnames'
-import Footer from './Footer/Footer'
-import Header from './Header/Header'
+import Footer from './Footer'
+import Header from './Header'
 
 function Page({ children, className, id, style }) {
   return (
-    <page className={classnames('', className)} id={id} style={style}>
+    <page className={className} id={id} style={style}>
       <Header />
       <main>
         {children}
