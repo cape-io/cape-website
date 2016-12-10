@@ -13,21 +13,29 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
     "gh-pages": "^0.12.0",
-    "react-scripts": "0.8.1"
+    "react-scripts": "^0.8.3"
   },
   "dependencies": {
-    "cape-redux-reducer": "^3.4.0",
+    "cape-lodash": "^1.10.0",
+    "cape-redux-auth": "^4.0.0",
+    "cape-redux-reducer": "^3.5.0",
+    "cape-select": "^2.4.0",
+    "classnames": "^2.2.5",
     "firebase": "^3.6.3",
     "location-info": "^3.1.1",
     "lodash": "^4.17.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-dropzone": "^3.7.3",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0",
+    "redux-graph": "^2.9.0",
+    "redux-history-component": "^1.0.2",
     "redux-history-sync": "^3.1.0",
     "redux-thunk": "^2.1.0",
     "redux-windowsize": "^1.3.0",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "tinycolor2": "^1.4.1"
   },
   "scripts": {
     "build": "react-scripts build",

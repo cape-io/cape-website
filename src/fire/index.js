@@ -1,9 +1,10 @@
 import firebase from 'firebase'
 
 const config = {
-  apiKey: 'AIzaSyB4ZUWrwOLk0AcIlJvRjX2Npw4VWuAHjO0',
-  authDomain: 'mica2017-18d52.firebaseapp.com',
-  databaseURL: 'https://mica2017-18d52.firebaseio.com',
+  apiKey: 'AIzaSyDNuZRCjZuq7P5mHsbG_68E9bOK-wCngeo',
+  authDomain: 'cape-io.firebaseapp.com',
+  databaseURL: 'https://cape-io.firebaseio.com',
+  storageBucket: 'cape-io.appspot.com',
 }
 firebase.initializeApp(config)
 
