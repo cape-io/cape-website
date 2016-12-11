@@ -1,5 +1,5 @@
 import {
-  curry, flow, isArray, keys, map, merge, method, propertyOf, range, zipObject,
+  curry, flow, isArray, keys, map, merge, method, partial, propertyOf, range, zipObject,
 } from 'lodash'
 import { createObj } from 'cape-lodash'
 import tinycolor from 'tinycolor2'
@@ -46,10 +46,12 @@ export function remStyleBuilder(style, prefix, allSidesArgs = false) {
     10: 10,
   }
   const sizeBuilder = createObj(style)
-  const remBuilder = flow(rem, sizeBuilder)
   const zero = {
     [`${prefix}0`]: isArray(allSidesArgs) ? allSides(...allSidesArgs) : sizeBuilder(0),
   }
+  const remBuilder = flow(rem,
+    isArray(allSidesArgs) ? partial(allSides, ...allSidesArgs) : sizeBuilder
+  )
   return merge(
     zero,
     zipObject(map(keys(sizes), key => prefix + key), map(sizes, remBuilder))
@@ -58,8 +60,8 @@ export function remStyleBuilder(style, prefix, allSidesArgs = false) {
 // Define the things that should be sent to remStyleBuilder.
 const remStyles = {
   br: 'borderRadius',
-  bw: 'borderWidth',
   fs: 'fontSize',
+  h: 'height',
   lh: 'lineHeight',
   mt: 'marginTop',
   mr: 'marginRight',
@@ -93,14 +95,16 @@ export const top50p = { top: '50%' }
 // styles.pt3 == { paddingTop: '3rem' }
 export const styles = {
   ...merge({}, ...map(remStyles, remStyleBuilder)),
-  ...remStyleBuilder('margin', 'm', ['margin']),
-  ...remStyleBuilder('padding', 'p', ['padding']),
+  ...remStyleBuilder('margin', 'm', ['margin', '']),
+  ...remStyleBuilder('padding', 'p', ['padding', '']),
+  ...remStyleBuilder('borderWidth', 'bw', ['border', 'Width']),
   absolute: pos('absolute'),
   bn: merge(allSides('border', 'Style', 'none'), allSides('border', 'Width')),
-  ba: { borderStyle: 'solid', borderWidth: '1px' },
+  ba: { borderStyle: 'solid', ...allSides('border', 'Width') },
   bb: { borderBottomStyle: 'solid', borderBottomWidth: '1px' },
   bbn: { borderBottom: 'none' },
   bgGray: bgColor('#eee'),
+  bgWashedBlue: bgColor('#f6fffe'),
   bgTrans: { background: 'transparent' },
   bl: { borderLeftStyle: 'solid', borderLeftWidth: '1px' },
   bln: { borderLeft: 'none' },
