@@ -28,7 +28,6 @@
     "lodash": "^4.17.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "react-dropzone": "^3.7.3",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0",
     "redux-field": "^4.1.0",

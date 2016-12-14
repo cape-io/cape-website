@@ -1,5 +1,6 @@
 import {
-  ary, flow, get, identity, isFunction, nthArg, overEvery, partialRight, property, stubTrue,
+  ary, flow, get, identity, isFunction, nthArg, overEvery,
+  partial, partialRight, property, stubTrue,
 } from 'lodash'
 import { eq, map } from 'lodash/fp'
 import { setField } from 'cape-lodash'
@@ -19,11 +20,10 @@ export function hovering(event) {
   }
   return event
 }
+// Use this for `onDragOver`.
 export const handleHover = flow(prevDef, hovering)
-
-export const handleDragOver = action => (
-  isFunction(action) ? flow(handleHover, action) : handleHover
-)
+// Call this with your action to call after default handling.
+export const handleDragOver = partial(flow, handleHover)
 
 export function getFiles(event) {
   const targetFiles = get(event, 'target.files', [])
@@ -42,10 +42,13 @@ export function fileMeta(file) {
     name: file.name,
   }
 }
-export const getAcceptChecker = ({ accept, multiple }) => flow(property('file'), overEvery(
+export const acceptChecker = accept => flow(property('file'), ary(partialRight(accepts, accept)))
+
+// getAcceptChecker(props)(file) returns boolean.
+export const getAcceptChecker = ({ accept, multiple }) => overEvery(
   (multiple && stubTrue) || onlyFirst,
-  (accept && ary(partialRight(accepts, accept))) || stubTrue
-))
+  (accept && acceptChecker(accept)) || stubTrue
+)
 export const getFile = props => flow(
   fileMeta,
   setField('isAccepted', getAcceptChecker(props))
