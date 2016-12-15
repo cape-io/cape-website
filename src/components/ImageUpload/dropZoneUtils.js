@@ -1,5 +1,5 @@
 import {
-  ary, flow, get, identity, isFunction, nthArg, overEvery,
+  ary, flow, get, identity, isFunction, overEvery,
   partial, partialRight, property, stubTrue,
 } from 'lodash'
 import { eq, map } from 'lodash/fp'
@@ -30,24 +30,24 @@ export function getFiles(event) {
   const files = get(event, 'dataTransfer.files', targetFiles)
   return Array.prototype.slice.call(files)
 }
-export const onlyFirst = flow(nthArg(1), eq(0))
 export const handleDrop = flow(prevDef, getFiles)
-export function fileMeta(file) {
+export function fileMeta(file, index = 0) {
   return {
     contentSize: file.size,
     // dateModified: file.
     file,
     fileFormat: file.type,
+    index,
     lastModified: file.lastModified,
     name: file.name,
   }
 }
+export const onlyFirst = flow(property('index'), eq(0))
 export const acceptChecker = accept => flow(property('file'), ary(partialRight(accepts, accept)))
-
 // getAcceptChecker(props)(file) returns boolean.
 export const getAcceptChecker = ({ accept, multiple }) => overEvery(
-  (multiple && stubTrue) || onlyFirst,
-  (accept && acceptChecker(accept)) || stubTrue
+  multiple ? stubTrue : onlyFirst,
+  accept ? acceptChecker(accept) : stubTrue
 )
 export const getFile = props => flow(
   fileMeta,
