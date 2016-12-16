@@ -1,7 +1,7 @@
 {
   "name": "redux-windowsize-site",
   "homepage": "http://redux-windowsize.cape.io",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "devDependencies": {
     "babel-plugin-lodash": "^3.2.10",
@@ -28,9 +28,9 @@
     "lodash": "^4.17.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "react-redux": "^4.4.6",
+    "react-redux": "^5.0.1",
     "redux": "^3.6.0",
-    "redux-field": "^4.1.0",
+    "redux-field": "^4.2.0",
     "redux-graph": "^2.9.0",
     "redux-history-component": "^1.0.2",
     "redux-history-sync": "^3.1.0",
