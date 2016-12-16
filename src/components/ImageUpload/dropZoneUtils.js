@@ -34,9 +34,9 @@ export function getFiles(event) {
 }
 export const handleDrop = flow(prevDef, getFiles)
 export function fileMeta(file, index = 0) {
-  if (!file.type) {
+  if (!file.type && !file.name) {
     console.error(file)
-    throw new Error('File must contain type attribute.')
+    throw new Error('File must contain type or name attribute.')
   }
   return {
     contentSize: file.size,
