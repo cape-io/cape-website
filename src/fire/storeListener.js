@@ -1,5 +1,5 @@
-import { forEach, partial } from 'lodash'
-import { dbChanges, handleAuth, typeLoadWatch } from './handler'
+import { partial } from 'lodash'
+import { dbChanges, handleAuth } from './handler'
 
 // const types = ['ShowGroup', 'Show', 'Program', 'Location', 'Person', 'Student']
 

@@ -6,6 +6,8 @@ import { selectAuthUser } from 'cape-redux-auth'
 import { loginUser } from './handler'
 import { entityUpdate, nextAction } from './util'
 
+// Middleware handlers.
+
 export function handleAuth(firebase, store) {
   const { auth, googleAuth } = firebase
   // console.log(credential)

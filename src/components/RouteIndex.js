@@ -1,5 +1,5 @@
 import home from './App'
-import image from './ImageUploadPg'
+import { ImageUpload as image } from './connected'
 
 export {
   home,
