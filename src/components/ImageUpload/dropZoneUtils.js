@@ -1,8 +1,8 @@
 import {
-  flow, get, identity, isFunction, overEvery,
+  flow, get, identity, isFunction,
   partial, partialRight, property, stubTrue,
 } from 'lodash'
-import { eq, filter, map, omit } from 'lodash/fp'
+import { eq, filter, find, map, omit } from 'lodash/fp'
 import { setField } from 'cape-lodash'
 import accepts from 'attr-accept'
 
@@ -54,25 +54,29 @@ export const acceptChecker = accept => flow(
   partialRight(accepts, accept)
 )
 // getAcceptChecker(props)(file) returns boolean.
-// Might want to allow running accept on everything and then getting the first val if no multi.
-export const getAcceptChecker = ({ accept, multiple }) => overEvery(
-  multiple ? stubTrue : onlyFirst,
-  accept ? acceptChecker(accept) : stubTrue
-)
+  // multiple ? stubTrue : onlyFirst,
+
 export const getFile = props => flow(
   fileMeta,
-  setField('isAccepted', getAcceptChecker(props))
+  setField('isAccepted', props.accept ? acceptChecker(props.accept) : stubTrue)
 )
-export const onlyAccepted = filter({ isAccepted: true })
-export const withoutFile = flow(onlyAccepted, map(omit('file')))
-export const handleBlur = onBlur => (files) => {
-  onBlur(withoutFile(files))
+export const acceptedPred = { isAccepted: true }
+// Return array limited to isAccepted.
+export const onlyAccepted = filter(acceptedPred)
+// Return first isAccepted.
+export const firstAccepted = find(acceptedPred)
+// Remove file field from object.
+export const omitFile = omit('file')
+// Only accepted files and without file property.
+export const withoutFile = flow(onlyAccepted, map(omitFile))
+export const handleBlur = ({ multiple, onBlur }) => (files) => {
+  onBlur(multiple ? withoutFile(files) : omitFile(files))
   return files
 }
-// Might want to make this more customizable somehow?
+// Trying to provide helpful but limited defaults.
 export const handleOnDrop = props => flow(
   handleDrop,
   mapWithKey(getFile(props)),
-  isFunction(props.onBlur) ? handleBlur(props.onBlur) : identity,
-  props.onDrop || identity
+  props.multiple ? identity : firstAccepted,
+  props.onDrop || (isFunction(props.onBlur) && handleBlur(props)) || identity
 )
