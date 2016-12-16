@@ -1,5 +1,5 @@
 import {
-  ary, flow, get, identity, isFunction, overEvery,
+  flow, get, identity, isFunction, overEvery,
   partial, partialRight, property, stubTrue,
 } from 'lodash'
 import { eq, filter, map } from 'lodash/fp'
