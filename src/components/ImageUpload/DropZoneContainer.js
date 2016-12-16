@@ -1,5 +1,5 @@
 import { structuredSelector } from 'cape-select'
-import { onChange, onDragEnter, onDragLeave } from 'redux-field'
+import { onBlur, onChange, onDragEnter, onDragLeave } from 'redux-field'
 import { createConnect, getFieldPropOr } from '../capeField'
 import Component from './DropZone'
 
@@ -8,6 +8,7 @@ export const mapStateToProps = structuredSelector({
 })
 
 const actions = {
+  onBlur,
   onChange,
   onDragEnter,
   onDragLeave,

@@ -2,7 +2,7 @@ import {
   flow, get, identity, isFunction, overEvery,
   partial, partialRight, property, stubTrue,
 } from 'lodash'
-import { eq, filter, map } from 'lodash/fp'
+import { eq, filter, map, omit } from 'lodash/fp'
 import { setField } from 'cape-lodash'
 import accepts from 'attr-accept'
 
@@ -54,6 +54,7 @@ export const acceptChecker = accept => flow(
   partialRight(accepts, accept)
 )
 // getAcceptChecker(props)(file) returns boolean.
+// Might want to allow running accept on everything and then getting the first val if no multi.
 export const getAcceptChecker = ({ accept, multiple }) => overEvery(
   multiple ? stubTrue : onlyFirst,
   accept ? acceptChecker(accept) : stubTrue
@@ -63,8 +64,15 @@ export const getFile = props => flow(
   setField('isAccepted', getAcceptChecker(props))
 )
 export const onlyAccepted = filter({ isAccepted: true })
+export const withoutFile = flow(onlyAccepted, map(omit('file')))
+export const handleBlur = onBlur => (files) => {
+  onBlur(withoutFile(files))
+  return files
+}
+// Might want to make this more customizable somehow?
 export const handleOnDrop = props => flow(
   handleDrop,
   mapWithKey(getFile(props)),
+  isFunction(props.onBlur) ? handleBlur(props.onBlur) : identity,
   props.onDrop || identity
 )
