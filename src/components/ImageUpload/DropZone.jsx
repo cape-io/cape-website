@@ -11,7 +11,7 @@ const styles = {
 function DropZone(props) {
   const { hasHover, message, style, ...rest } = props
   const inlineStyle = hasHover ? styles.onHover : styles.base
-  console.log(rest)
+  // console.log(rest)
   return (
     <div {...rest} style={{ ...inlineStyle, ...style }} onDrop={handleOnDrop(rest)}>
       <p>{message}</p>
@@ -32,6 +32,7 @@ DropZone.propTypes = {
 }
 DropZone.defaultProps = {
   message: 'Drop in a new file to upload.',
+  multiple: false,
   onDragOver: handleHover,
   style: {},
 }

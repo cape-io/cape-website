@@ -1,4 +1,4 @@
-import { fileMeta, getAcceptChecker, getFile, onlyFirst } from './dropZoneUtils'
+import { acceptChecker, fileMeta, getAcceptChecker, getFile, onlyFirst } from './dropZoneUtils'
 
 /* global describe it expect */
 describe('onlyFirst', () => {
@@ -29,6 +29,7 @@ const files = [
   fileMeta(file),
   fileMeta({ ...file, name: 'One.pdf' }, 1),
   fileMeta({ ...file, name: 'Two.pdf' }, 2),
+  fileMeta({ ...file, name: 'Three.jpg', type: 'image/jpeg' }),
 ]
 describe('getAcceptChecker', () => {
   const props = { multiple: true }
@@ -51,7 +52,18 @@ describe('getAcceptChecker', () => {
     expect(checker2(files[2])).toBe(false)
   })
 })
-
+describe('acceptChecker', () => {
+  const accept = 'image/*'
+  const func = acceptChecker(accept)
+  it('should return a func after sending props', () => {
+    expect(typeof func).toBe('function')
+  })
+  it('sends file prop along with accept condition to attr-accept', () => {
+    expect(func(files[0])).toBe(false)
+    expect(func(files[1])).toBe(false)
+    expect(func(files[3])).toBe(true)
+  })
+})
 describe('getFile', () => {
   const func = getFile({})
   it('should return a func after sending props', () => {
@@ -67,5 +79,15 @@ describe('getFile', () => {
     expect(func2(file)).toEqual({ ...files[0], isAccepted: true })
     expect(func2(file, 1).isAccepted).toBe(true)
     expect(func2(file, 2).isAccepted).toBe(true)
+  })
+  const func3 = getFile({ accept: 'image/*' })
+  it('will reject first file because it is not an image', () => {
+    expect(func3(file).isAccepted).toBe(false)
+  })
+  it('will will accept an image file', () => {
+    expect(func3(files[3].file).isAccepted).toBe(true)
+  })
+  it('will will reject an image file if not first and no multiple', () => {
+    expect(func3(files[3].file, 1).isAccepted).toBe(false)
   })
 })

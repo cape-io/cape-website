@@ -2,9 +2,11 @@ import {
   ary, flow, get, identity, isFunction, overEvery,
   partial, partialRight, property, stubTrue,
 } from 'lodash'
-import { eq, map } from 'lodash/fp'
+import { eq, filter, map } from 'lodash/fp'
 import { setField } from 'cape-lodash'
 import accepts from 'attr-accept'
+
+const mapWithKey = map.convert({ cap: false })
 
 export function prevDef(event) {
   if (event && isFunction(event.preventDefault)) event.preventDefault()
@@ -32,6 +34,10 @@ export function getFiles(event) {
 }
 export const handleDrop = flow(prevDef, getFiles)
 export function fileMeta(file, index = 0) {
+  if (!file.type) {
+    console.error(file)
+    throw new Error('File must contain type attribute.')
+  }
   return {
     contentSize: file.size,
     // dateModified: file.
@@ -43,7 +49,10 @@ export function fileMeta(file, index = 0) {
   }
 }
 export const onlyFirst = flow(property('index'), eq(0))
-export const acceptChecker = accept => flow(property('file'), ary(partialRight(accepts, accept)))
+export const acceptChecker = accept => flow(
+  property('file'),
+  partialRight(accepts, accept)
+)
 // getAcceptChecker(props)(file) returns boolean.
 export const getAcceptChecker = ({ accept, multiple }) => overEvery(
   multiple ? stubTrue : onlyFirst,
@@ -53,8 +62,9 @@ export const getFile = props => flow(
   fileMeta,
   setField('isAccepted', getAcceptChecker(props))
 )
+export const onlyAccepted = filter({ isAccepted: true })
 export const handleOnDrop = props => flow(
   handleDrop,
-  map(getFile(props)),
+  mapWithKey(getFile(props)),
   props.onDrop || identity
 )
