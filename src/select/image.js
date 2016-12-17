@@ -1,6 +1,8 @@
 import { flow, partial } from 'lodash'
-import { pick } from 'lodash/fp'
+import { map, pick } from 'lodash/fp'
 import { clear, onBlur, saveProgress } from 'redux-field'
+import { entityTypeSelector } from 'redux-graph'
+import { createSelector } from 'reselect'
 import { structuredSelector } from 'cape-select'
 
 import { omitFile } from '../components/FileUpload/dropZoneUtils'
@@ -39,7 +41,11 @@ export const handleUpload = file => (dispatch) => {
   // Upload file
   console.log(file)
 }
-
+export const getImages = createSelector(
+  entityTypeSelector('MediaObject'),
+  map(pick(['name', 'url']))
+)
 export const imageSelector = structuredSelector({
   collectionId,
+  images: getImages,
 })
