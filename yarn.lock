@@ -4792,9 +4792,9 @@ redux-field@^4.1.0:
     reselect "^2.5.4"
     seamless-immutable "^6.1.3"
 
-redux-field@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/redux-field/-/redux-field-4.3.0.tgz#74b8edc588b3e9d9e2022d26522420ffea29ebad"
+redux-field@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/redux-field/-/redux-field-4.4.1.tgz#4e51046d235d57c38d6b294e23cfdb4d83d5276a"
   dependencies:
     cape-lodash "^1.10.0"
     cape-redux "^3.1.0"

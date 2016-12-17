@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import css from '../../style'
 import { handleHover, handleOnDrop } from './dropZoneUtils'
+import FileUploading from './DropZoneUploading'
 
 const baseStyle = css('bgGray mw7 p2 m2 h7')
 const styles = {
@@ -9,7 +10,12 @@ const styles = {
 }
 
 function DropZone(props) {
-  const { hasHover, message, style, ...rest } = props
+  const { hasBlur, hasHover, message, isSaving, savedProgress, style, value, ...rest } = props
+  if (hasBlur) {
+    return (
+      <FileUploading isSaving={isSaving} savedProgress={savedProgress} value={value} />
+    )
+  }
   const inlineStyle = hasHover ? styles.onHover : styles.base
   // console.log(rest)
   return (
@@ -21,6 +27,7 @@ function DropZone(props) {
 }
 
 DropZone.propTypes = {
+  hasBlur: PropTypes.bool,
   hasHover: PropTypes.bool,
   id: PropTypes.string,
   onDragEnter: PropTypes.func,

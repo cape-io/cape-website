@@ -1,5 +1,6 @@
 import { flow, partial } from 'lodash'
-import { clear, onBlur, savedProgress } from 'redux-field'
+import { pick } from 'lodash/fp'
+import { clear, onBlur, saveProgress } from 'redux-field'
 import { structuredSelector } from 'cape-select'
 
 import { omitFile } from '../components/FileUpload/dropZoneUtils'
@@ -7,7 +8,10 @@ import { loadSha } from '../components/FileUpload/processFile'
 import { getFileUrl, storage } from '../fire'
 
 export const collectionId = 'file'
-export const onProgress = dispatch => flow(partial(savedProgress, collectionId), dispatch)
+// export const debugReturn = (item) => { console.log(item); return item }
+export const onProgress = dispatch => flow(
+  pick(['bytesTransferred', 'totalBytes']), partial(saveProgress, collectionId), dispatch
+)
 export const onComplete = (dispatch, { fileName }) => () => {
   dispatch(clear(collectionId))
   console.log('done', getFileUrl(fileName))
@@ -27,6 +31,7 @@ export const handleUpload = file => (dispatch) => {
   // Upload file
   console.log(file)
 }
+
 export const imageSelector = structuredSelector({
   collectionId,
 })
