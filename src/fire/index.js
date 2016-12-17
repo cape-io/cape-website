@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 
-const config = {
+export const config = {
   apiKey: 'AIzaSyDNuZRCjZuq7P5mHsbG_68E9bOK-wCngeo',
   authDomain: 'cape-io.firebaseapp.com',
   databaseURL: 'https://cape-io.firebaseio.com',
@@ -17,3 +17,9 @@ export const db = firebase.database().ref()
 export const entity = db.child('entity')
 
 export const storage = firebase.storage().ref()
+
+export const baseFileUrl = 'https://storage.googleapis.com'
+
+export function getFileUrl(fileName) {
+  return [baseFileUrl, config.storageBucket, fileName].join('/')
+}
