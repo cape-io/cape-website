@@ -46,6 +46,7 @@ export function fileMeta(file, index = 0) {
     index,
     lastModified: file.lastModified,
     name: file.name,
+    type: 'File',
   }
 }
 export const onlyFirst = flow(property('index'), eq(0))
