@@ -14,7 +14,7 @@ function ImageUploadPg({ collectionId, images, handleUpload }) {
       <h1>Upload an image</h1>
       <DropZone accept="image/jpeg" collectionId={collectionId} onDrop={handleUpload} />
       {images && map(images, ({ url, name }, key) => (
-        url ? <img alt={name} key={key} src={getSrc(url)} /> : <div key={key}>{name}</div>
+        url ? <img alt={name} key={key} src={getSrc(url)} /> : <span key={key}>{name}</span>
       ))}
     </Page>
   )

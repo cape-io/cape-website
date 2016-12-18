@@ -1,5 +1,5 @@
 import { flow, partial } from 'lodash'
-import { map, pick } from 'lodash/fp'
+import { map, orderBy, pick } from 'lodash/fp'
 import { clear, onBlur, saveProgress } from 'redux-field'
 import { entityTypeSelector } from 'redux-graph'
 import { createSelector } from 'reselect'
@@ -43,7 +43,10 @@ export const handleUpload = file => (dispatch) => {
 }
 export const getImages = createSelector(
   entityTypeSelector('MediaObject'),
-  map(pick(['name', 'url']))
+  flow(
+    map(pick(['dateCreated', 'name', 'url'])),
+    orderBy('dateCreated', 'desc'),
+  )
 )
 export const imageSelector = structuredSelector({
   collectionId,
