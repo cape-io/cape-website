@@ -13,9 +13,9 @@ import { entitySet, entityUpdate } from '../fire/util'
 const { storage } = firebase
 
 export const collectionId = 'file'
-// export const debugReturn = (item) => { console.log(item); return item }
+export const debugReturn = (item) => { console.log(item); return item }
 export const onProgress = dispatch => flow(
-  pick(['bytesTransferred', 'totalBytes']), partial(saveProgress, collectionId), dispatch
+  pick(['bytesTransferred', 'totalBytes']), debugReturn, partial(saveProgress, collectionId), dispatch
 )
 const cdnUrl = 'http://cape-f.imgix.net/'
 export const onComplete = (dispatch, { id, fileName, type }) => () => {

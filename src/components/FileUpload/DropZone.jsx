@@ -10,8 +10,8 @@ const styles = {
 }
 
 function DropZone(props) {
-  const { hasBlur, hasHover, message, isSaving, savedProgress, style, value, ...rest } = props
-  if (hasBlur) {
+  const { hasHover, message, isSaving, savedProgress, style, uploadStarted, value, ...rest } = props
+  if (uploadStarted) {
     return (
       <FileUploading isSaving={isSaving} savedProgress={savedProgress} value={value} />
     )

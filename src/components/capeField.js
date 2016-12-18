@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
-import { flow, filter, get, memoize, method, omit, overArgs, partial, property } from 'lodash'
+import {
+  flow, filter, get, memoize, method, omit, overArgs, partial, property,
+} from 'lodash'
 import { at, getOr } from 'lodash/fp'
 import { mapDispatchToProps } from 'cape-redux'
 import { mapPartial, selectForm } from 'redux-field'
